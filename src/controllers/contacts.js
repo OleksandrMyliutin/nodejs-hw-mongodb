@@ -1,4 +1,4 @@
-import { getAllContacts as getAllContactsService, getContactById as getContactByIdService, createContact as createContactService, updateContact as updateContactService, deleteContact as deleteContactService} from '../services/contacts.js';
+import { getPaginatedContacts, getContactById as getContactByIdService, createContact as createContactService, updateContact as updateContactService, deleteContact as deleteContactService} from '../services/contacts.js';
 import createError from 'http-errors';
 
 export const deleteContact = async (req, res, next) => {
@@ -30,13 +30,31 @@ export const updateContact = async (req, res, next) => {
     });
 };
 
-export const getAllContacts = async (req, res, next) => {
-    const contacts = await getAllContactsService();
+    export const getAllContacts = async (req, res, next) => {
+    const {
+        page = 1,
+        perPage = 10,
+        sortBy = 'name',
+        sortOrder = 'asc',
+        type,
+        isFavourite,
+    } = req.query;
+
+    const options = {
+        page: parseInt(page),
+        perPage: parseInt(perPage),
+        sortBy,
+        sortOrder,
+        type,
+        isFavourite,
+    };
+
+    const result = await getPaginatedContacts(options);
 
     res.status(200).json({
         status: 200,
         message: 'Successfully found contacts!',
-        data: contacts,
+        data: result,
     });
     };
 
