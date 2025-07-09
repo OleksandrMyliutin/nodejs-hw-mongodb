@@ -4,6 +4,30 @@ import createHttpError from 'http-errors';
 import { User } from '../db/models/user.js';
 import { Session } from '../db/models/session.js';
 
+export const registerUser = async ({ name, email, password }) => {
+  const existingUser = await User.findOne({ email });
+
+  if (existingUser) {
+    throw createHttpError(409, 'Email in use');
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const newUser = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+  });
+
+  return {
+    id: newUser._id,
+    name: newUser.name,
+    email: newUser.email,
+    createdAt: newUser.createdAt,
+    updatedAt: newUser.updatedAt,
+  };
+};
+
 export const loginUser = async ({ email, password }) => {
   const user = await User.findOne({ email });
 
@@ -31,10 +55,12 @@ export const loginUser = async ({ email, password }) => {
   });
 
   await Session.create({
-    user: user._id,
-    token: refreshToken,
+    userId: user._id,
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + 60 * 60 * 1000), // 1 година
+    refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 днів
   });
-
   return {
     accessToken,
     refreshToken,

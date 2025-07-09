@@ -22,23 +22,23 @@ export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const { accessToken } = await loginUser({ email, password });
+    const { accessToken, refreshToken } = await loginUser({ email, password });
 
     res
-      .status(200)
-      .cookie('refreshToken', accessToken.refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 днів
-      })
-      .json({
-        status: 200,
-        message: 'Successfully logged in an user!',
-        data: {
-          accessToken: accessToken.accessToken,
-        },
-      });
+    .status(200)
+    .cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 днів
+    })
+    .json({
+      status: 200,
+      message: 'Successfully logged in an user!',
+      data: {
+        accessToken,
+      },
+    });
   } catch (error) {
     next(error);
   }
