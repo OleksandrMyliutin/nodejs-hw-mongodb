@@ -4,6 +4,7 @@ import pino from 'pino-http';
 import contactsRouter from './routers/contacts.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import authRouter from './routers/auth.js';
 
 export const startServer = () => {
     const app = express();
@@ -24,6 +25,8 @@ export const startServer = () => {
     });
 
     app.use('/contacts', contactsRouter);
+
+    app.use('/auth', authRouter);
 
     // Middleware для неіснуючих маршрутів
     app.use(notFoundHandler);
