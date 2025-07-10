@@ -5,6 +5,8 @@ import contactsRouter from './routers/contacts.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import authRouter from './routers/auth.js';
+import cookieParser from 'cookie-parser';
+
 
 export const startServer = () => {
     const app = express();
@@ -19,7 +21,7 @@ export const startServer = () => {
         },
         })
     );
-
+    app.use(cookieParser());
     app.get('/', (req, res) => {
         res.json({ message: 'Hello World!' });
     });

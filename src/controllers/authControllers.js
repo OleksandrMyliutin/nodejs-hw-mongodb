@@ -1,6 +1,6 @@
 import { registerUser } from '../services/authServices.js';
 import { loginUser } from '../services/authServices.js';
-
+import { logoutUser } from '../services/authServices.js';
 
 export const register = async (req, res, next) => {
   try {
@@ -39,6 +39,22 @@ export const login = async (req, res, next) => {
         accessToken,
       },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logout = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.cookies;
+
+    if (!refreshToken) {
+      return res.status(204).end(); // навіть якщо токена нема — віддаємо 204
+    }
+
+    await logoutUser(refreshToken);
+
+    res.clearCookie('refreshToken').status(204).end();
   } catch (error) {
     next(error);
   }

@@ -66,3 +66,7 @@ export const loginUser = async ({ email, password }) => {
     refreshToken,
   };
 };
+
+export const logoutUser = async (refreshToken) => {
+  await Session.findOneAndDelete({ refreshToken });
+};
