@@ -1,6 +1,9 @@
 import { registerUser } from '../services/authServices.js';
 import { loginUser } from '../services/authServices.js';
 import { logoutUser } from '../services/authServices.js';
+import createHttpError from 'http-errors';
+import jwt from 'jsonwebtoken';
+import { Session } from '../db/models/session.js';
 
 export const register = async (req, res, next) => {
   try {
@@ -55,6 +58,44 @@ export const logout = async (req, res, next) => {
     await logoutUser(refreshToken);
 
     res.clearCookie('refreshToken').status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const refreshToken = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.cookies;
+
+    if (!refreshToken) {
+      throw createHttpError(401, 'Refresh token missing');
+    }
+
+    const session = await Session.findOne({ refreshToken });
+
+    if (!session || session.refreshTokenValidUntil < new Date()) {
+      throw createHttpError(403, 'Refresh token is expired or invalid');
+    }
+
+    const payload = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+
+    const newAccessToken = jwt.sign(
+      { id: payload.id, email: payload.email },
+      process.env.JWT_ACCESS_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    session.accessToken = newAccessToken;
+    session.accessTokenValidUntil = new Date(Date.now() + 60 * 60 * 1000);
+    await session.save();
+
+    res.status(200).json({
+      status: 200,
+      message: 'Access token refreshed successfully!',
+      data: {
+        accessToken: newAccessToken,
+      },
+    });
   } catch (error) {
     next(error);
   }
