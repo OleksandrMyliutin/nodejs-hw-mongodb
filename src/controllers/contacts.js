@@ -25,7 +25,7 @@ import {
         sortOrder,
         type,
         isFavourite,
-        ownerId: req.user.id,
+        userId: req.user.id,
       });
   
       res.status(200).json({
@@ -60,8 +60,8 @@ import {
   
   export const createContact = async (req, res, next) => {
     try {
-      const ownerId = req.user.id;
-      const newContact = await createContactService(req.body, ownerId);
+      const userId = req.user.id;
+      const newContact = await createContactService(req.body, userId);
   
       res.status(201).json({
         status: 201,

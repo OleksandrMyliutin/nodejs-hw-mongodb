@@ -7,12 +7,12 @@ export const getPaginatedContacts = async ({
   sortOrder,
   type,
   isFavourite,
-  ownerId,
+  userId,
 }) => {
   const skip = (page - 1) * perPage;
   const sortDirection = sortOrder === 'desc' ? -1 : 1;
 
-  const filter = { owner: ownerId };
+  const filter = { userId };
 
   if (type) filter.contactType = type;
   if (isFavourite !== undefined) filter.isFavourite = isFavourite === 'true';
@@ -37,23 +37,23 @@ export const getPaginatedContacts = async ({
   };
 };
 
-export const getContactById = async (contactId, ownerId) => {
-  return await Contact.findOne({ _id: contactId, owner: ownerId });
+export const getContactById = async (contactId, userId) => {
+  return await Contact.findOne({ _id: contactId, userId });
 };
 
-export const createContact = async (contactData, ownerId) => {
-  const newContact = await Contact.create({ ...contactData, owner: ownerId });
+export const createContact = async (contactData, userId) => {
+  const newContact = await Contact.create({ ...contactData, userId });
   return newContact;
 };
 
-export const updateContact = async (contactId, updateData, ownerId) => {
+export const updateContact = async (contactId, updateData, userId) => {
   return await Contact.findOneAndUpdate(
-    { _id: contactId, owner: ownerId },
+    { _id: contactId, userId },
     updateData,
     { new: true }
   );
 };
 
-export const deleteContact = async (contactId, ownerId) => {
-  return await Contact.findOneAndDelete({ _id: contactId, owner: ownerId });
+export const deleteContact = async (contactId, userId) => {
+  return await Contact.findOneAndDelete({ _id: contactId, userId });
 };
