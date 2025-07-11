@@ -58,20 +58,26 @@ import {
     }
   };
   
-  export const createContact = async (req, res, next) => {
-    try {
-      const userId = req.user.id;
-      const newContact = await createContactService(req.body, userId);
-  
-      res.status(201).json({
-        status: 201,
-        message: 'Successfully created contact!',
-        data: newContact,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+export const createContact = async (req, res, next) => {
+  try {
+
+    const userId = req.user.id;
+    const contactData = {
+      ...req.body,
+      photo: req.file ? req.file.path : "",
+    };
+    const newContact = await createContactService(contactData, userId);
+
+    res.status(201).json({
+      status: 201,
+      message: 'Successfully created contact!',
+      data: newContact,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
   
   export const updateContact = async (req, res, next) => {
     try {

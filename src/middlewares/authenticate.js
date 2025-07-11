@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
+import { User } from '../db/models/user.js'; // Додай цей імпорт!
 
-export const authenticate = (req, res, next) => {
+export const authenticate = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -15,14 +16,20 @@ export const authenticate = (req, res, next) => {
       throw createHttpError(401, 'Invalid authorization format');
     }
 
-    let user;
+    let payload;
     try {
-      user = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         throw createHttpError(401, 'Access token expired');
       }
       throw createHttpError(401, 'Invalid access token');
+    }
+
+  
+    const user = await User.findById(payload.id);
+    if (!user) {
+      throw createHttpError(401, 'User not found');
     }
 
     req.user = user;

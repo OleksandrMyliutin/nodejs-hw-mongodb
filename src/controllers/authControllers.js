@@ -4,6 +4,7 @@ import { logoutUser } from '../services/authServices.js';
 import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
 import { Session } from '../db/models/session.js';
+import { Contact } from '../db/models/contact.js';
 
 export const register = async (req, res, next) => {
   try {
@@ -95,6 +96,50 @@ export const refreshToken = async (req, res, next) => {
       data: {
         accessToken: newAccessToken,
       },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateAvatar = async (req, res, next) => {
+  try {
+    const avatarUrl = req.file.path;
+
+    req.user.avatarURL = avatarUrl;
+    await req.user.save();
+
+    res.json({
+      status: 200,
+      message: 'Avatar updated',
+      data: { avatarUrl },
+    });
+  } catch (error) {
+    console.error("Update avatar error:", error);
+    next(error);
+  }
+};
+
+export const updateContactPhoto = async (req, res, next) => {
+  try {
+    const { contactId } = req.params;
+    const contact = await Contact.findById(contactId);
+
+    if (!contact) {
+      return res.status(404).json({ message: 'Contact not found!' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded!' });
+    }
+
+    contact.photo = req.file.path;
+    await contact.save();
+
+    res.json({
+      status: 200,
+      message: 'Contact photo updated',
+      data: { photo: contact.photo }
     });
   } catch (error) {
     next(error);
