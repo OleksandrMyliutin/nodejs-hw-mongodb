@@ -1,9 +1,7 @@
 import jwt from 'jsonwebtoken';
 import createError from 'http-errors';
-import User from '../../models/User.js';
-import { createTestAccount } from '../../helpers/email/createTestAccount.js';
-import nodemailer from 'nodemailer';
-
+import { User } from '../db/models/user.js';
+import { sendResetPasswordEmail } from '../services/emailService.js';
 
 export const sendResetEmail = async (req, res, next) => {
   const { email } = req.body;
@@ -17,16 +15,11 @@ export const sendResetEmail = async (req, res, next) => {
   const resetLink = `${process.env.APP_DOMAIN}/reset-password?token=${token}`;
 
   try {
-    const { transporter, testAccount } = await createTestAccount();
+    console.log("email із контролера:", email);
+    console.log("resetLink із контролера:", resetLink);
 
-    const info = await transporter.sendMail({
-      from: `"No Reply" <${testAccount.user}>`,
-      to: email,
-      subject: 'Password Reset',
-      html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
-    });
-
-    console.log('Preview URL:', nodemailer.getTestMessageUrl(info));
+    // Ось тут головне виправлення ↓↓↓
+    await sendResetPasswordEmail(email, resetLink);
 
     res.status(200).json({
       status: 200,
