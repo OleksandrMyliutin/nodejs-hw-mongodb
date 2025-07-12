@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
+import { isTokenBlacklisted } from "./tokenBlacklist.js";
 
 export const authenticate = (req, res, next) => {
   try {
@@ -13,6 +14,10 @@ export const authenticate = (req, res, next) => {
 
     if (type !== 'Bearer' || !token) {
       throw createHttpError(401, 'Invalid authorization format');
+    }
+
+    if (isTokenBlacklisted(token)) {
+      throw createHttpError(401, 'Access token revoked');
     }
 
     let user;
