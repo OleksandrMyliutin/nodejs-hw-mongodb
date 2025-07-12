@@ -56,7 +56,6 @@ export const logout = async (req, res, next) => {
 
     if (token) {
       addTokenToBlacklist(token);
-      console.log("Токен додано у blacklist:", token);
     }
 
     if (!refreshToken) {
