@@ -30,10 +30,8 @@ export const startServer = () => {
 
     app.use('/auth', authRouter);
 
-    // Middleware для неіснуючих маршрутів
     app.use(notFoundHandler);
 
-    // Middleware обробки помилок
     app.use(errorHandler);
 
     app.listen(PORT, () => {

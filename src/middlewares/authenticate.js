@@ -1,28 +1,20 @@
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
-import { isTokenBlacklisted } from "./tokenBlacklist.js";
+import { Session } from "../db/models/session.js";
 
-export const authenticate = (req, res, next) => {
+export const authenticate = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw createHttpError(401, 'Authorization header missing or malformed');
     }
-
     const [type, token] = authHeader.split(' ');
-
     if (type !== 'Bearer' || !token) {
       throw createHttpError(401, 'Invalid authorization format');
     }
-
-    if (isTokenBlacklisted(token)) {
-      throw createHttpError(401, 'Access token revoked');
-    }
-
-    let user;
+    let payload;
     try {
-      user = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         throw createHttpError(401, 'Access token expired');
@@ -30,9 +22,15 @@ export const authenticate = (req, res, next) => {
       throw createHttpError(401, 'Invalid access token');
     }
 
-    req.user = user;
+    const session = await Session.findOne({ accessToken: token });
+    if (!session) {
+      throw createHttpError(401, 'Session not found');
+    }
+
+    req.user = { id: payload.id, email: payload.email };
     next();
   } catch (error) {
     next(error);
   }
 };
+

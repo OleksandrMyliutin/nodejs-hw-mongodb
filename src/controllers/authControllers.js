@@ -4,7 +4,7 @@ import { logoutUser } from '../services/authServices.js';
 import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
 import { Session } from '../db/models/session.js';
-import { addTokenToBlacklist } from "../middlewares/tokenBlacklist.js";
+
 
 export const register = async (req, res, next) => {
   try {
@@ -51,12 +51,6 @@ export const login = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     const { refreshToken } = req.cookies;
-    const { authorization = "" } = req.headers;
-    const token = authorization.split(" ")[1];
-
-    if (token) {
-      addTokenToBlacklist(token);
-    }
 
     if (!refreshToken) {
       return res.status(204).end();
@@ -69,6 +63,7 @@ export const logout = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 export const refreshToken = async (req, res, next) => {
