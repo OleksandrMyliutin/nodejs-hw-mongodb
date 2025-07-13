@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
+import { Session } from "../db/models/session.js";
 
 export const authenticate = async (req, res, next) => {
   try {
@@ -11,8 +12,7 @@ export const authenticate = async (req, res, next) => {
     if (type !== 'Bearer' || !token) {
       throw createHttpError(401, 'Invalid authorization format');
     }
-
-    let user;
+    let payload;
     try {
       payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     } catch (error) {
@@ -22,7 +22,12 @@ export const authenticate = async (req, res, next) => {
       throw createHttpError(401, 'Invalid access token');
     }
 
-    req.user = user;
+    const session = await Session.findOne({ accessToken: token });
+    if (!session) {
+      throw createHttpError(401, 'Session not found');
+    }
+
+    req.user = { id: payload.id, email: payload.email };
     next();
   } catch (error) {
     next(error);
