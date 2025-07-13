@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import { Session } from '../db/models/session.js';
 import { Contact } from '../db/models/contact.js';
 
+
 export const register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -53,7 +54,7 @@ export const logout = async (req, res, next) => {
     const { refreshToken } = req.cookies;
 
     if (!refreshToken) {
-      return res.status(204).end(); // навіть якщо токена нема — віддаємо 204
+      return res.status(204).end();
     }
 
     await logoutUser(refreshToken);
@@ -63,6 +64,8 @@ export const logout = async (req, res, next) => {
     next(error);
   }
 };
+
+
 
 export const refreshToken = async (req, res, next) => {
   try {
