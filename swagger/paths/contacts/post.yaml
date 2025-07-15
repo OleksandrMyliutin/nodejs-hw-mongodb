@@ -10,13 +10,13 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: ../../../components/Contact.yaml
+        $ref: ../../components/Contact.yaml
 responses:
   '201':
     description: Контакт створено
     content:
       application/json:
         schema:
-          $ref: ../../../components/Contact.yaml
+          $ref: ../../components/Contact.yaml
   '400':
     description: Некоректні дані
