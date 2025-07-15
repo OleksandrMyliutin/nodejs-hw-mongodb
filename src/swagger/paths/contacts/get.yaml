@@ -1,0 +1,29 @@
+tags:
+  - Contacts
+summary: Отримати всі контакти користувача
+operationId: getAllContacts
+description: Повертає всі контакти, які належать авторизованому користувачу.
+security:
+  - bearerAuth: []
+parameters:
+  - name: page
+    in: query
+    schema:
+      type: integer
+      default: 1
+    description: Номер сторінки
+  - name: limit
+    in: query
+    schema:
+      type: integer
+      default: 10
+    description: Кількість контактів на сторінці
+responses:
+  '200':
+    description: Список контактів
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: ../../../components/Contact.yaml
