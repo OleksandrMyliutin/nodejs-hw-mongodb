@@ -1,0 +1,36 @@
+type: object
+properties:
+  status:
+    type: integer
+    example: 404
+  message:
+    type: string
+    example: "Contact not found"
+  data:
+    type: ["null", "object"]
+    example: null
+examples:
+  notFound:
+    summary: Контакт не знайдено
+    value:
+      status: 404
+      message: "Contact not found"
+      data: null
+  unauthorized:
+    summary: Неавторизовано
+    value:
+      status: 401
+      message: "Authorization header missing or malformed"
+      data: null
+  forbidden:
+    summary: Токен невалідний чи протермінований
+    value:
+      status: 403
+      message: "Refresh token is expired or invalid"
+      data: null
+  badRequest:
+    summary: Некоректний запит
+    value:
+      status: 400
+      message: "Validation error"
+      data: null

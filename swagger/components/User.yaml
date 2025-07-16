@@ -1,0 +1,14 @@
+type: object
+properties:
+  _id:
+    type: string
+    example: "64a7db9fd4b290bb0698ba33"
+  name:
+    type: string
+    example: "test"
+  email:
+    type: string
+    example: "test@example.com"
+  avatarURL:
+    type: string
+    example: "https://res.cloudinary.com/dica60k30/image/upload/v1234567890/avatar.jpg"

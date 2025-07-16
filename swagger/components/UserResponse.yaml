@@ -1,0 +1,14 @@
+type: object
+properties:
+  status:
+    type: integer
+    example: 201
+  message:
+    type: string
+    example: "Successfully registered a user!"
+  data:
+    $ref: './User.yaml'
+required:
+  - status
+  - message
+  - data

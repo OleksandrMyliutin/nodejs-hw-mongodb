@@ -15,15 +15,41 @@ parameters:
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
-        $ref: ../../../components/Contact.yaml
+        type: object
+        properties:
+          name:
+            type: string
+          phoneNumber:
+            type: string
+          contactType:
+            type: string
+          photo:
+            type: string
+            format: binary
 responses:
   '200':
     description: Контакт оновлено
     content:
       application/json:
         schema:
-          $ref: ../../../components/Contact.yaml
+          $ref: ../../../components/OneContactResponse.yaml
   '404':
     description: Контакт не знайдено
+    content:
+      application/json:
+        schema:
+          $ref: ../../../components/ErrorResponse.yaml
+  '400':
+    description: Некоректний запит
+    content:
+      application/json:
+        schema:
+          $ref: ../../../components/ErrorResponse.yaml
+  '401':
+    description: Неавторизовано
+    content:
+      application/json:
+        schema:
+          $ref: ../../../components/ErrorResponse.yaml

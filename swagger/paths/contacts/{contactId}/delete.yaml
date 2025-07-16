@@ -13,7 +13,23 @@ parameters:
       type: string
     description: Унікальний ідентифікатор контакту
 responses:
-  '200':
-    description: Контакт видалено
+  '204':
+    description: Контакт видалено, відповіді немає
   '404':
     description: Контакт не знайдено
+    content:
+      application/json:
+        schema:
+          $ref: ../../../components/ErrorResponse.yaml
+  '400':
+    description: Некоректний запит
+    content:
+      application/json:
+        schema:
+          $ref: ../../../components/ErrorResponse.yaml
+  '401':
+    description: Неавторизовано
+    content:
+      application/json:
+        schema:
+          $ref: ../../../components/ErrorResponse.yaml

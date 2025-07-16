@@ -2,18 +2,30 @@ type: object
 properties:
   _id:
     type: string
-    example: '60d21b4667d0d8992e610c85'
+    example: "1234567890abcdef"
   name:
     type: string
-    example: 'John Doe'
-  email:
+    example: "test"
+  phoneNumber:
     type: string
-    example: 'john@example.com'
-  phone:
+    example: "+380501112233"
+  contactType:
     type: string
-    example: '+380991234567'
+    example: "personal"
+  userId:
+    type: string
+    example: "abcdef1234567890"
+  photo:
+    type: string
+    example: ""
+  __v:
+    type: integer
+    example: 0
 required:
   - _id
   - name
-  - email
-  - phone
+  - phoneNumber
+  - contactType
+  - userId
+  - photo
+  - __v

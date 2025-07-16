@@ -8,15 +8,35 @@ security:
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
-        $ref: ../../components/Contact.yaml
+        type: object
+        properties:
+          name:
+            type: string
+          phoneNumber:
+            type: string
+          contactType:
+            type: string
+          photo:
+            type: string
+            format: binary
 responses:
   '201':
     description: Контакт створено
     content:
       application/json:
         schema:
-          $ref: ../../components/Contact.yaml
+          $ref: ../../components/OneContactResponse.yaml
   '400':
     description: Некоректні дані
+    content:
+      application/json:
+        schema:
+          $ref: ../../components/ErrorResponse.yaml
+  '401':
+    description: Неавторизовано
+    content:
+      application/json:
+        schema:
+          $ref: ../../components/ErrorResponse.yaml

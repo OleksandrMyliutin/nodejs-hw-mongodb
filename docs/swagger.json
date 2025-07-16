@@ -48,25 +48,80 @@
             "description": "Номер сторінки"
           },
           {
-            "name": "limit",
+            "name": "perPage",
             "in": "query",
             "schema": {
               "type": "integer",
               "default": 10
             },
             "description": "Кількість контактів на сторінці"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "name"
+            },
+            "description": "Сортувати за полем"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "asc",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "description": "Порядок сортування"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Тип контакту (опціонально)"
+          },
+          {
+            "name": "isFavourite",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Вибраний контакт (опціонально)"
           }
         ],
         "responses": {
           "200": {
-            "description": "Список контактів",
+            "description": "Список контактів користувача з пагінацією",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Contact"
-                  }
+                  "$ref": "#/components/schemas/GetContactsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некоректний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неавторизовано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -88,9 +143,24 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Contact"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "contactType": {
+                    "type": "string"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               }
             }
           }
@@ -101,13 +171,30 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Contact"
+                  "$ref": "#/components/schemas/OneContactResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Некоректні дані"
+            "description": "Некоректні дані",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неавторизовано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -142,13 +229,30 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Contact"
+                  "$ref": "#/components/schemas/OneContactResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неавторизовано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
           },
           "404": {
-            "description": "Контакт не знайдено"
+            "description": "Контакт не знайдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -178,9 +282,24 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Contact"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "contactType": {
+                    "type": "string"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               }
             }
           }
@@ -191,13 +310,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Contact"
+                  "$ref": "#/components/schemas/OneContactResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некоректний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неавторизовано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
           },
           "404": {
-            "description": "Контакт не знайдено"
+            "description": "Контакт не знайдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -225,11 +371,38 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Контакт видалено"
+          "204": {
+            "description": "Контакт видалено, відповіді немає"
+          },
+          "400": {
+            "description": "Некоректний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неавторизовано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Контакт не знайдено"
+            "description": "Контакт не знайдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -248,26 +421,157 @@
         "properties": {
           "_id": {
             "type": "string",
-            "example": "60d21b4667d0d8992e610c85"
+            "example": "1234567890abcdef"
           },
           "name": {
             "type": "string",
-            "example": "John Doe"
+            "example": "test"
           },
-          "email": {
+          "phoneNumber": {
             "type": "string",
-            "example": "john@example.com"
+            "example": "+380501112233"
           },
-          "phone": {
+          "contactType": {
             "type": "string",
-            "example": "+380991234567"
+            "example": "personal"
+          },
+          "userId": {
+            "type": "string",
+            "example": "abcdef1234567890"
+          },
+          "photo": {
+            "type": "string",
+            "example": ""
+          },
+          "__v": {
+            "type": "integer",
+            "example": 0
           }
         },
         "required": [
           "_id",
           "name",
-          "email",
-          "phone"
+          "phoneNumber",
+          "contactType",
+          "userId",
+          "photo",
+          "__v"
+        ]
+      },
+      "GetContactsResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "Successfully found contacts!"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "contacts": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              },
+              "page": {
+                "type": "integer",
+                "example": 1
+              },
+              "perPage": {
+                "type": "integer",
+                "example": 10
+              },
+              "total": {
+                "type": "integer",
+                "example": 37
+              }
+            }
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "data"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 404
+          },
+          "message": {
+            "type": "string",
+            "example": "Contact not found"
+          },
+          "data": {
+            "type": [
+              "null",
+              "object"
+            ],
+            "example": null
+          }
+        },
+        "examples": {
+          "notFound": {
+            "summary": "Контакт не знайдено",
+            "value": {
+              "status": 404,
+              "message": "Contact not found",
+              "data": null
+            }
+          },
+          "unauthorized": {
+            "summary": "Неавторизовано",
+            "value": {
+              "status": 401,
+              "message": "Authorization header missing or malformed",
+              "data": null
+            }
+          },
+          "forbidden": {
+            "summary": "Токен невалідний чи протермінований",
+            "value": {
+              "status": 403,
+              "message": "Refresh token is expired or invalid",
+              "data": null
+            }
+          },
+          "badRequest": {
+            "summary": "Некоректний запит",
+            "value": {
+              "status": 400,
+              "message": "Validation error",
+              "data": null
+            }
+          }
+        }
+      },
+      "OneContactResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "Successfully updated contact!"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Contact"
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "data"
         ]
       }
     }
