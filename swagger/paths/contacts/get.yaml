@@ -35,16 +35,48 @@ responses:
     content:
       application/json:
         schema:
-          $ref: ../../components/GetContactsResponse.yaml
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found contacts!
+            data:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../components/Contact.yaml'
+                page:
+                  type: integer
+                  example: 1
+                perPage:
+                  type: integer
+                  example: 2
+                totalItems:
+                  type: integer
+                  example: 1
+                totalPages:
+                  type: integer
+                  example: 1
+                hasPreviousPage:
+                  type: boolean
+                  example: false
+                hasNextPage:
+                  type: boolean
+                  example: false
   '400':
     description: Некоректний запит
     content:
       application/json:
         schema:
-          $ref: ../../components/ErrorResponse.yaml
+          $ref: '../../components/ErrorResponse.yaml'
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
-          $ref: ../../components/ErrorResponse.yaml
+          $ref: '../../components/ErrorResponse.yaml' 

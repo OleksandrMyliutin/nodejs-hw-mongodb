@@ -1,27 +1,44 @@
 type: object
 properties:
-  id:
+  _id:
     type: string
     description: Унікальний ідентифікатор контакту
-    example: "612e1f7e3b5e3a6f8c123456"
+    example: 60d21b4667d0d8992e610c85
   name:
     type: string
-    description: Ім'я контакту
-    example: "John Doe"
+    description: Ім’я контакту
+    example: John Doe
+  email:
+    type: string
+    description: Електронна пошта (опціонально)
+    example: johndoe@example.com
   phoneNumber:
     type: string
-    description: Номер телефону контакту
-    example: "+380123456789"
+    description: Номер телефону
+    example: +380501234567
   contactType:
     type: string
-    description: Тип контакту (наприклад, особистий або робочий)
-    example: "personal"
+    description: Тип контакту (наприклад, work, personal)
+    example: work
+  isFavourite:
+    type: boolean
+    description: Чи є контакт улюбленим
+    example: false
   photo:
     type: string
-    description: URL або шлях до фото контакту (якщо завантажено)
-    example: "https://example.com/uploads/612e1f7e3b5e3a6f8c123456.jpg"
+    description: Фото контакту (URL або порожній рядок)
+    example: ""
+  userId:
+    type: string
+    description: Ідентифікатор користувача, якому належить контакт
+    example: 60d21b4667d0d8992e610c84
+  __v:
+    type: integer
+    description: Версія документа (технічне поле)
+    example: 0
 required:
-  - id
+  - _id
   - name
   - phoneNumber
   - contactType
+  - userId

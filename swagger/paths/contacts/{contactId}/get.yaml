@@ -18,16 +18,16 @@ responses:
     content:
       application/json:
         schema:
-          $ref: ../../../components/OneContactResponse.yaml
+          $ref: '../../../components/OneContactResponse.yaml'
   '404':
     description: Контакт не знайдено
     content:
       application/json:
         schema:
-          $ref: ../../../components/ErrorResponse.yaml
+          $ref: '../../../components/ErrorResponse.yaml'
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
-          $ref: ../../../components/ErrorResponse.yaml
+          $ref: '../../../components/ErrorResponse.yaml'
