@@ -96,7 +96,7 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "data": {
+                        "contacts": {
                           "type": "array",
                           "items": {
                             "$ref": "#/components/schemas/Contact"
@@ -129,6 +129,34 @@
                       }
                     }
                   }
+                },
+                "examples": {
+                  "Success": {
+                    "summary": "Список контактів з пагінацією",
+                    "value": {
+                      "status": 200,
+                      "message": "Successfully found contacts!",
+                      "data": {
+                        "contacts": [
+                          {
+                            "_id": "687113f0d29c1342da1cb9f1",
+                            "name": "Hanna",
+                            "phoneNumber": "+380000000008",
+                            "contactType": "personal",
+                            "userId": "6870fa1264fcd7118fa2d80c",
+                            "photo": "https://res.cloudinary.com/dica60k30/image/upload/v1752241198/contacts/a0drczlmkphchls0thcc.png",
+                            "__v": 0
+                          }
+                        ],
+                        "page": 1,
+                        "perPage": 2,
+                        "totalItems": 1,
+                        "totalPages": 1,
+                        "hasPreviousPage": false,
+                        "hasNextPage": false
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -139,6 +167,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "BadRequest": {
+                    "summary": "Некоректний запит",
+                    "value": {
+                      "status": 400,
+                      "message": "Некоректний параметр пагінації",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -149,6 +187,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Unauthorized": {
+                    "summary": "Неавторизовано",
+                    "value": {
+                      "status": 401,
+                      "message": "Authorization header missing or malformed",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -220,7 +268,27 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Contact"
+                  "$ref": "#/components/schemas/OneContactResponse"
+                },
+                "examples": {
+                  "Created": {
+                    "summary": "Контакт створено",
+                    "value": {
+                      "status": 201,
+                      "message": "Successfully created contact!",
+                      "data": {
+                        "_id": "687113f0d29c1342da1cb9f1",
+                        "name": "Anna",
+                        "email": "anna@example.com",
+                        "phoneNumber": "+380000000008",
+                        "contactType": "personal",
+                        "isFavourite": false,
+                        "userId": "6870fa1264fcd7118fa2d80c",
+                        "photo": "https://res.cloudinary.com/dica60k30/image/upload/v1752241198/contacts/a0drczlmkphchls0thcc.png",
+                        "__v": 0
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -231,6 +299,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "BadRequest": {
+                    "summary": "Некоректний запит",
+                    "value": {
+                      "status": 400,
+                      "message": "Validation error",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -241,6 +319,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Unauthorized": {
+                    "summary": "Неавторизовано",
+                    "value": {
+                      "status": 401,
+                      "message": "Authorization header missing or malformed",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -279,6 +367,24 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/OneContactResponse"
+                },
+                "examples": {
+                  "Success": {
+                    "summary": "Контакт знайдено",
+                    "value": {
+                      "status": 200,
+                      "message": "Successfully fetched contact!",
+                      "data": {
+                        "_id": "687113f0d29c1342da1cb9f1",
+                        "name": "Anna",
+                        "phoneNumber": "+380000000008",
+                        "contactType": "personal",
+                        "userId": "6870fa1264fcd7118fa2d80c",
+                        "photo": "https://res.cloudinary.com/dica60k30/image/upload/v1752241198/contacts/a0drczlmkphchls0thcc.png",
+                        "__v": 0
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -289,6 +395,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Unauthorized": {
+                    "summary": "Неавторизовано (невірний або прострочений токен)",
+                    "value": {
+                      "status": 401,
+                      "message": "Access token expired",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -299,6 +415,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "NotFound": {
+                    "summary": "Контакт не знайдено",
+                    "value": {
+                      "status": 404,
+                      "message": "Contact not found",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -372,6 +498,24 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/OneContactResponse"
+                },
+                "examples": {
+                  "Success": {
+                    "summary": "Контакт оновлено",
+                    "value": {
+                      "status": 200,
+                      "message": "Successfully updated contact!",
+                      "data": {
+                        "_id": "687113f0d29c1342da1cb9f1",
+                        "name": "Anna",
+                        "phoneNumber": "+380000000008",
+                        "contactType": "personal",
+                        "userId": "6870fa1264fcd7118fa2d80c",
+                        "photo": "https://res.cloudinary.com/dica60k30/image/upload/v1752241198/contacts/a0drczlmkphchls0thcc.png",
+                        "__v": 0
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -382,6 +526,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "BadRequest": {
+                    "summary": "Некоректний запит",
+                    "value": {
+                      "status": 400,
+                      "message": "Invalid contact ID",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -392,6 +546,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Unauthorized": {
+                    "summary": "Неавторизовано",
+                    "value": {
+                      "status": 401,
+                      "message": "Authorization header missing or malformed",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -402,6 +566,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "NotFound": {
+                    "summary": "Контакт не знайдено",
+                    "value": {
+                      "status": 404,
+                      "message": "Contact not found",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -441,6 +615,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "BadRequest": {
+                    "summary": "Некоректний ID",
+                    "value": {
+                      "status": 400,
+                      "message": "Invalid contact ID",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -451,6 +635,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Unauthorized": {
+                    "summary": "Неавторизовано (невірний або прострочений токен)",
+                    "value": {
+                      "status": 401,
+                      "message": "Authorization header missing or malformed",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -461,6 +655,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "NotFound": {
+                    "summary": "Контакт не знайдено",
+                    "value": {
+                      "status": 404,
+                      "message": "Contact not found",
+                      "data": null
+                    }
+                  }
                 }
               }
             }
@@ -538,9 +742,9 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "string",
-            "description": "Статус (помилка) – значення \"error\"",
-            "example": "error"
+            "type": "integer",
+            "description": "HTTP-статус відповіді (наприклад, 400, 401, 404, 500)",
+            "example": 404
           },
           "message": {
             "type": "string",
@@ -548,7 +752,6 @@
             "example": "Contact not found"
           },
           "data": {
-            "type": "object",
             "description": "null (відсутні дані у випадку помилки)",
             "example": null
           }
@@ -563,9 +766,9 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "string",
-            "description": "Статус відповіді (наприклад, \"success\")",
-            "example": "success"
+            "type": "integer",
+            "description": "HTTP-статус відповіді (наприклад, 200, 201)",
+            "example": 201
           },
           "message": {
             "type": "string",
