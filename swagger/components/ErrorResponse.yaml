@@ -9,7 +9,6 @@ properties:
     description: Опис помилки
     example: "Contact not found"
   data:
-    nullable: true
     description: null (відсутні дані у випадку помилки)
     example: null
 required:
