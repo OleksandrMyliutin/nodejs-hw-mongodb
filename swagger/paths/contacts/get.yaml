@@ -2,6 +2,9 @@ tags:
   - Contacts
 summary: Отримати список контактів
 description: Повертає список контактів з підтримкою пагінації та сортування.
+operationId: getAllContacts
+security:
+  - bearerAuth: []
 parameters:
   - in: query
     name: page
@@ -25,8 +28,7 @@ parameters:
     schema:
       type: string
       enum: [asc, desc]
-    description: Порядок сортування: asc (за зростанням) або desc (за спаданням)
-
+    description: Порядок сортування 'asc' (за зростанням) або 'desc' (за спаданням)
 responses:
   '200':
     description: Успішне отримання списку контактів
