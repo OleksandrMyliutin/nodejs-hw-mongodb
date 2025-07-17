@@ -2,7 +2,7 @@ tags:
   - Contacts
 summary: Оновити контакт
 operationId: updateContact
-description: Оновлює існуючий контакт за його ID. Можна змінити ім'я, номер телефону, тип контакту або фото (усі поля необов'язкові).
+description: Оновлює існуючий контакт за його ID. Можна змінити ім'я, email, номер телефону, тип контакту, isFavourite або фото (усі поля необов'язкові).
 security:
   - bearerAuth: []
 parameters:
@@ -21,13 +21,23 @@ requestBody:
         properties:
           name:
             type: string
+            description: Ім'я контакта
+          email:
+            type: string
+            description: Електронна пошта
           phoneNumber:
             type: string
+            description: Номер телефону
           contactType:
             type: string
+            description: Тип контакта (work/personal/...)
+          isFavourite:
+            type: boolean
+            description: Чи є контакт улюбленим
           photo:
             type: string
             format: binary
+            description: Фото (опціонально)
 responses:
   '200':
     description: Контакт успішно оновлено

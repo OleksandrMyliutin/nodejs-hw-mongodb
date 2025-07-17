@@ -9,18 +9,18 @@
     },
     "description": "API для роботи з контактами користувача (GoIT HW7).\n"
   },
-  "tags": [
-    {
-      "name": "Contacts",
-      "description": "Операції з контактами"
-    }
-  ],
   "servers": [
     {
       "url": "http://localhost:3000"
     },
     {
       "url": "https://nodejs-hw-mongodb-7-8efq.onrender.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Contacts",
+      "description": "Операції з контактами"
     }
   ],
   "paths": {
@@ -99,7 +99,7 @@
                         "data": {
                           "type": "array",
                           "items": {
-                            "$ref": "#/paths/~1contacts/post/responses/201/content/application~1json/schema"
+                            "$ref": "#/components/schemas/Contact"
                           }
                         },
                         "page": {
@@ -138,29 +138,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "description": "Статус (помилка) – значення \"error\"",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "description": "Опис помилки",
-                      "example": "Contact not found"
-                    },
-                    "data": {
-                      "type": "object",
-                      "description": "null (відсутні дані у випадку помилки)",
-                      "example": null
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ]
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -170,7 +148,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -242,61 +220,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "Унікальний ідентифікатор контакту",
-                      "example": "60d21b4667d0d8992e610c85"
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "Ім’я контакту",
-                      "example": "John Doe"
-                    },
-                    "email": {
-                      "type": "string",
-                      "description": "Електронна пошта (опціонально)",
-                      "example": "johndoe@example.com"
-                    },
-                    "phoneNumber": {
-                      "type": "string",
-                      "description": "Номер телефону",
-                      "example": 380501234567
-                    },
-                    "contactType": {
-                      "type": "string",
-                      "description": "Тип контакту (наприклад, work, personal)",
-                      "example": "work"
-                    },
-                    "isFavourite": {
-                      "type": "boolean",
-                      "description": "Чи є контакт улюбленим",
-                      "example": false
-                    },
-                    "photo": {
-                      "type": "string",
-                      "description": "Фото контакту (URL або порожній рядок)",
-                      "example": ""
-                    },
-                    "userId": {
-                      "type": "string",
-                      "description": "Ідентифікатор користувача, якому належить контакт",
-                      "example": "60d21b4667d0d8992e610c84"
-                    },
-                    "__v": {
-                      "type": "integer",
-                      "description": "Версія документа (технічне поле)",
-                      "example": 0
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "name",
-                    "phoneNumber",
-                    "contactType",
-                    "userId"
-                  ]
+                  "$ref": "#/components/schemas/Contact"
                 }
               }
             }
@@ -306,7 +230,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -316,7 +240,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -354,27 +278,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "description": "Статус відповіді (наприклад, \"success\")",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "description": "Повідомлення про результат операції",
-                      "example": "Contact created successfully"
-                    },
-                    "data": {
-                      "$ref": "#/paths/~1contacts/post/responses/201/content/application~1json/schema"
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ]
+                  "$ref": "#/components/schemas/OneContactResponse"
                 }
               }
             }
@@ -384,7 +288,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -394,7 +298,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -407,7 +311,7 @@
         ],
         "summary": "Оновити контакт",
         "operationId": "updateContact",
-        "description": "Оновлює існуючий контакт за його ID. Можна змінити ім'я, номер телефону, тип контакту або фото (усі поля необов'язкові).",
+        "description": "Оновлює існуючий контакт за його ID. Можна змінити ім'я, email, номер телефону, тип контакту, isFavourite або фото (усі поля необов'язкові).",
         "security": [
           {
             "bearerAuth": []
@@ -432,17 +336,29 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Ім'я контакта"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Електронна пошта"
                   },
                   "phoneNumber": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Номер телефону"
                   },
                   "contactType": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Тип контакта (work/personal/...)"
+                  },
+                  "isFavourite": {
+                    "type": "boolean",
+                    "description": "Чи є контакт улюбленим"
                   },
                   "photo": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "binary",
+                    "description": "Фото (опціонально)"
                   }
                 }
               }
@@ -455,7 +371,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts~1%7BcontactId%7D/get/responses/200/content/application~1json/schema"
+                  "$ref": "#/components/schemas/OneContactResponse"
                 }
               }
             }
@@ -465,7 +381,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -475,7 +391,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -485,7 +401,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -524,7 +440,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -534,7 +450,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -544,7 +460,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/paths/~1contacts/get/responses/400/content/application~1json/schema"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -558,6 +474,113 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Унікальний ідентифікатор контакту",
+            "example": "60d21b4667d0d8992e610c85"
+          },
+          "name": {
+            "type": "string",
+            "description": "Ім’я контакту",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "Електронна пошта (опціонально)",
+            "example": "johndoe@example.com"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Номер телефону",
+            "example": 380501234567
+          },
+          "contactType": {
+            "type": "string",
+            "description": "Тип контакту (наприклад, work, personal)",
+            "example": "work"
+          },
+          "isFavourite": {
+            "type": "boolean",
+            "description": "Чи є контакт улюбленим",
+            "example": false
+          },
+          "photo": {
+            "type": "string",
+            "description": "Фото контакту (URL або порожній рядок)",
+            "example": ""
+          },
+          "userId": {
+            "type": "string",
+            "description": "Ідентифікатор користувача, якому належить контакт",
+            "example": "60d21b4667d0d8992e610c84"
+          },
+          "__v": {
+            "type": "integer",
+            "description": "Версія документа (технічне поле)",
+            "example": 0
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "phoneNumber",
+          "contactType",
+          "userId"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Статус (помилка) – значення \"error\"",
+            "example": "error"
+          },
+          "message": {
+            "type": "string",
+            "description": "Опис помилки",
+            "example": "Contact not found"
+          },
+          "data": {
+            "type": "object",
+            "description": "null (відсутні дані у випадку помилки)",
+            "example": null
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "data"
+        ]
+      },
+      "OneContactResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Статус відповіді (наприклад, \"success\")",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "description": "Повідомлення про результат операції",
+            "example": "Contact created successfully"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Contact"
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "data"
+        ]
       }
     }
   }
