@@ -46,16 +46,46 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '../../components/Contact.yaml'
+          $ref: '../../components/OneContactResponse.yaml'
+        examples:
+          Created:
+            summary: Контакт створено
+            value:
+              status: 201
+              message: "Successfully created contact!"
+              data:
+                _id: "687113f0d29c1342da1cb9f1"
+                name: "Anna"
+                email: "anna@example.com"
+                phoneNumber: "+380000000008"
+                contactType: "personal"
+                isFavourite: false
+                userId: "6870fa1264fcd7118fa2d80c"
+                photo: "https://res.cloudinary.com/dica60k30/image/upload/v1752241198/contacts/a0drczlmkphchls0thcc.png"
+                __v: 0
   '400':
     description: Некоректний запит
     content:
       application/json:
         schema:
           $ref: '../../components/ErrorResponse.yaml'
+        examples:
+          BadRequest:
+            summary: Некоректний запит
+            value:
+              status: 400
+              message: "Validation error"
+              data: null
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
           $ref: '../../components/ErrorResponse.yaml'
+        examples:
+          Unauthorized:
+            summary: Неавторизовано
+            value:
+              status: 401
+              message: "Authorization header missing or malformed"
+              data: null

@@ -1,15 +1,15 @@
 type: object
 properties:
   status:
-    type: string
-    description: Статус відповіді (наприклад, "success")
-    example: "success"
+    type: integer
+    description: HTTP-статус відповіді (наприклад, 200, 201)
+    example: 201
   message:
     type: string
     description: Повідомлення про результат операції
     example: "Contact created successfully"
   data:
-    $ref: ./Contact.yaml
+    $ref: "./Contact.yaml"
 required:
   - status
   - message

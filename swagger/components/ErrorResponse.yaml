@@ -1,15 +1,15 @@
 type: object
 properties:
   status:
-    type: string
-    description: Статус (помилка) – значення "error"
-    example: "error"
+    type: integer
+    description: HTTP-статус відповіді (наприклад, 400, 401, 404, 500)
+    example: 404
   message:
     type: string
     description: Опис помилки
     example: "Contact not found"
   data:
-    type: object
+    nullable: true
     description: null (відсутні дані у випадку помилки)
     example: null
 required:

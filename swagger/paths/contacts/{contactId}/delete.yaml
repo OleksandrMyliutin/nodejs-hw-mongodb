@@ -21,15 +21,36 @@ responses:
       application/json:
         schema:
           $ref: '../../../components/ErrorResponse.yaml'
+        examples:
+          BadRequest:
+            summary: Некоректний ID
+            value:
+              status: 400
+              message: "Invalid contact ID"
+              data: null
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
           $ref: '../../../components/ErrorResponse.yaml'
+        examples:
+          Unauthorized:
+            summary: Неавторизовано (невірний або прострочений токен)
+            value:
+              status: 401
+              message: "Authorization header missing or malformed"
+              data: null
   '404':
     description: Не знайдено (контакт не існує)
     content:
       application/json:
         schema:
           $ref: '../../../components/ErrorResponse.yaml'
+        examples:
+          NotFound:
+            summary: Контакт не знайдено
+            value:
+              status: 404
+              message: "Contact not found"
+              data: null

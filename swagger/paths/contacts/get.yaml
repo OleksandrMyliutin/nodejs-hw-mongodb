@@ -46,7 +46,7 @@ responses:
             data:
               type: object
               properties:
-                data:
+                contacts:
                   type: array
                   items:
                     $ref: '../../components/Contact.yaml'
@@ -68,15 +68,50 @@ responses:
                 hasNextPage:
                   type: boolean
                   example: false
+        examples:
+          Success:
+            summary: Список контактів з пагінацією
+            value:
+              status: 200
+              message: "Successfully found contacts!"
+              data:
+                contacts:
+                  - _id: "687113f0d29c1342da1cb9f1"
+                    name: "Hanna"
+                    phoneNumber: "+380000000008"
+                    contactType: "personal"
+                    userId: "6870fa1264fcd7118fa2d80c"
+                    photo: "https://res.cloudinary.com/dica60k30/image/upload/v1752241198/contacts/a0drczlmkphchls0thcc.png"
+                    __v: 0
+                page: 1
+                perPage: 2
+                totalItems: 1
+                totalPages: 1
+                hasPreviousPage: false
+                hasNextPage: false
   '400':
     description: Некоректний запит
     content:
       application/json:
         schema:
           $ref: '../../components/ErrorResponse.yaml'
+        examples:
+          BadRequest:
+            summary: Некоректний запит
+            value:
+              status: 400
+              message: "Некоректний параметр пагінації"
+              data: null
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
-          $ref: '../../components/ErrorResponse.yaml' 
+          $ref: '../../components/ErrorResponse.yaml'
+        examples:
+          Unauthorized:
+            summary: Неавторизовано
+            value:
+              status: 401
+              message: "Authorization header missing or malformed"
+              data: null

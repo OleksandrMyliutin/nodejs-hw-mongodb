@@ -19,15 +19,43 @@ responses:
       application/json:
         schema:
           $ref: '../../../components/OneContactResponse.yaml'
+        examples:
+          Success:
+            summary: Контакт знайдено
+            value:
+              status: 200
+              message: "Successfully fetched contact!"
+              data:
+                _id: "687113f0d29c1342da1cb9f1"
+                name: "Anna"
+                phoneNumber: "+380000000008"
+                contactType: "personal"
+                userId: "6870fa1264fcd7118fa2d80c"
+                photo: "https://res.cloudinary.com/dica60k30/image/upload/v1752241198/contacts/a0drczlmkphchls0thcc.png"
+                __v: 0
   '404':
     description: Контакт не знайдено
     content:
       application/json:
         schema:
           $ref: '../../../components/ErrorResponse.yaml'
+        examples:
+          NotFound:
+            summary: Контакт не знайдено
+            value:
+              status: 404
+              message: "Contact not found"
+              data: null
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
           $ref: '../../../components/ErrorResponse.yaml'
+        examples:
+          Unauthorized:
+            summary: Неавторизовано (невірний або прострочений токен)
+            value:
+              status: 401
+              message: "Access token expired"
+              data: null
