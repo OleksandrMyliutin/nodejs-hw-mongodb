@@ -12,7 +12,7 @@ tags:
     description: Операції з контактами
 servers:
   - url: http://localhost:3000
-  - url: https://nodejs-hw-mongodb-7-xof6.onrender.com # заміниш на свій після деплою
+  - url: https://nodejs-hw-mongodb-7-8efq.onrender.com # заміниш на свій після деплою
 paths:
   /contacts:
     get:
