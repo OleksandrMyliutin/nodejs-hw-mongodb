@@ -1,27 +1,53 @@
 type: object
 properties:
   status:
-    type: integer
-    example: 200
+    type: string
+    description: Статус відповіді (наприклад, "success")
+    example: "success"
   message:
     type: string
-    example: "Successfully found contacts!"
+    description: Повідомлення про результат запиту
+    example: "Contacts retrieved successfully"
   data:
     type: object
     properties:
       contacts:
         type: array
+        description: Масив контактів для поточної сторінки
         items:
           $ref: './Contact.yaml'
       page:
         type: integer
+        description: Номер поточної сторінки
         example: 1
       perPage:
         type: integer
+        description: Кількість контактів на сторінку
         example: 10
-      total:
+      totalItems:
         type: integer
-        example: 37
+        description: Загальна кількість контактів
+        example: 100
+      totalPages:
+        type: integer
+        description: Загальна кількість сторінок
+        example: 10
+      hasPreviousPage:
+        type: boolean
+        description: Чи існує попередня сторінка
+        example: false
+      hasNextPage:
+        type: boolean
+        description: Чи існує наступна сторінка
+        example: true
+    required:
+      - contacts
+      - page
+      - perPage
+      - totalItems
+      - totalPages
+      - hasPreviousPage
+      - hasNextPage
 required:
   - status
   - message

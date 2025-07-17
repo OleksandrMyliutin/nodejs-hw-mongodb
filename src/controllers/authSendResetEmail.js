@@ -18,7 +18,7 @@ export const sendResetEmail = async (req, res, next) => {
     console.log("email із контролера:", email);
     console.log("resetLink із контролера:", resetLink);
 
-    // Ось тут головне виправлення ↓↓↓
+
     await sendResetPasswordEmail(email, resetLink);
 
     res.status(200).json({

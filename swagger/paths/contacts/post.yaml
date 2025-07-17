@@ -1,8 +1,8 @@
 tags:
   - Contacts
 summary: Створити новий контакт
+description: Додає новий контакт. Підтримує multipart/form-data для фото (необов’язково).
 operationId: createContact
-description: Додає новий контакт для користувача.
 security:
   - bearerAuth: []
 requestBody:
@@ -21,22 +21,26 @@ requestBody:
           photo:
             type: string
             format: binary
+        required:
+          - name
+          - phoneNumber
+          - contactType
 responses:
   '201':
-    description: Контакт створено
+    description: Контакт успішно створено
     content:
       application/json:
         schema:
-          $ref: ../../components/OneContactResponse.yaml
+          $ref: "../../components/OneContactResponse.yaml"
   '400':
-    description: Некоректні дані
+    description: Некоректний запит
     content:
       application/json:
         schema:
-          $ref: ../../components/ErrorResponse.yaml
+          $ref: "../../components/ErrorResponse.yaml"
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
-          $ref: ../../components/ErrorResponse.yaml
+          $ref: "../../components/ErrorResponse.yaml"

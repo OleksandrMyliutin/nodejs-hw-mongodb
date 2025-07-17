@@ -8,35 +8,44 @@ import {
   import createHttpError from 'http-errors';
   
   export const getAllContacts = async (req, res, next) => {
-    try {
-      const {
-        page = 1,
-        perPage = 10,
-        sortBy = 'name',
-        sortOrder = 'asc',
-        type,
-        isFavourite,
-      } = req.query;
-  
-      const result = await getPaginatedContacts({
-        page: Number(page),
-        perPage: Number(perPage),
-        sortBy,
-        sortOrder,
-        type,
-        isFavourite,
-        userId: req.user.id,
-      });
-  
-      res.status(200).json({
-        status: 200,
-        message: 'Successfully found contacts!',
-        data: result,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  try {
+    const {
+      page = 1,
+      perPage = 10,
+      sortBy = 'name',
+      sortOrder = 'asc',
+      type,
+      isFavourite,
+    } = req.query;
+
+    const result = await getPaginatedContacts({
+      page: Number(page),
+      perPage: Number(perPage),
+      sortBy,
+      sortOrder,
+      type,
+      isFavourite,
+      userId: req.user.id,
+    });
+
+    const {
+      data,
+      ...paginationInfo 
+    } = result;
+
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully found contacts!',
+      data: {
+        contacts: data,
+        ...paginationInfo,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
   
   export const getContactById = async (req, res, next) => {
     try {

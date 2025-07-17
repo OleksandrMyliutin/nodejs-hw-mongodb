@@ -1,31 +1,27 @@
 type: object
 properties:
-  _id:
+  id:
     type: string
-    example: "1234567890abcdef"
+    description: Унікальний ідентифікатор контакту
+    example: "612e1f7e3b5e3a6f8c123456"
   name:
     type: string
-    example: "test"
+    description: Ім'я контакту
+    example: "John Doe"
   phoneNumber:
     type: string
-    example: "+380501112233"
+    description: Номер телефону контакту
+    example: "+380123456789"
   contactType:
     type: string
+    description: Тип контакту (наприклад, особистий або робочий)
     example: "personal"
-  userId:
-    type: string
-    example: "abcdef1234567890"
   photo:
     type: string
-    example: ""
-  __v:
-    type: integer
-    example: 0
+    description: URL або шлях до фото контакту (якщо завантажено)
+    example: "https://example.com/uploads/612e1f7e3b5e3a6f8c123456.jpg"
 required:
-  - _id
+  - id
   - name
   - phoneNumber
   - contactType
-  - userId
-  - photo
-  - __v

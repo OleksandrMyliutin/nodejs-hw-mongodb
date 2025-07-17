@@ -1,62 +1,48 @@
 tags:
   - Contacts
-summary: Отримати всі контакти користувача
-operationId: getAllContacts
-description: Повертає всі контакти, які належать авторизованому користувачу.
-security:
-  - bearerAuth: []
+summary: Отримати список контактів
+description: Повертає список контактів з підтримкою пагінації та сортування.
 parameters:
-  - name: page
-    in: query
+  - in: query
+    name: page
     schema:
       type: integer
-      default: 1
-    description: Номер сторінки
-  - name: perPage
-    in: query
+      minimum: 1
+    description: Номер сторінки (пагінація)
+  - in: query
+    name: perPage
     schema:
       type: integer
-      default: 10
-    description: Кількість контактів на сторінці
-  - name: sortBy
-    in: query
+      minimum: 1
+    description: Кількість контактів на сторінку
+  - in: query
+    name: sortBy
     schema:
       type: string
-      default: "name"
-    description: Сортувати за полем
-  - name: sortOrder
-    in: query
+    description: Поле для сортування (наприклад, "name")
+  - in: query
+    name: sortOrder
     schema:
       type: string
-      default: "asc"
       enum: [asc, desc]
-    description: Порядок сортування
-  - name: type
-    in: query
-    schema:
-      type: string
-    description: Тип контакту (опціонально)
-  - name: isFavourite
-    in: query
-    schema:
-      type: boolean
-    description: Вибраний контакт (опціонально)
+    description: Порядок сортування: asc (за зростанням) або desc (за спаданням)
+
 responses:
   '200':
-    description: Список контактів користувача з пагінацією
+    description: Успішне отримання списку контактів
     content:
       application/json:
         schema:
-          $ref: ../../components/GetContactsResponse.yaml
+          $ref: "../../components/GetContactsResponse.yaml"
   '400':
     description: Некоректний запит
     content:
       application/json:
         schema:
-          $ref: ../../components/ErrorResponse.yaml
+          $ref: "../../components/ErrorResponse.yaml"
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
-          $ref: ../../components/ErrorResponse.yaml
+          $ref: "../../components/ErrorResponse.yaml"

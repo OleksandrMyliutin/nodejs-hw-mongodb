@@ -2,7 +2,7 @@ tags:
   - Contacts
 summary: Оновити контакт
 operationId: updateContact
-description: Оновлює дані контакту по contactId.
+description: Оновлює існуючий контакт за його ID. Можна змінити ім'я, номер телефону, тип контакту або фото (усі поля необов'язкові).
 security:
   - bearerAuth: []
 parameters:
@@ -30,26 +30,26 @@ requestBody:
             format: binary
 responses:
   '200':
-    description: Контакт оновлено
+    description: Контакт успішно оновлено
     content:
       application/json:
         schema:
-          $ref: ../../../components/OneContactResponse.yaml
-  '404':
-    description: Контакт не знайдено
-    content:
-      application/json:
-        schema:
-          $ref: ../../../components/ErrorResponse.yaml
+          $ref: '../../../components/OneContactResponse.yaml'
   '400':
     description: Некоректний запит
     content:
       application/json:
         schema:
-          $ref: ../../../components/ErrorResponse.yaml
+          $ref: "../../../components/ErrorResponse.yaml"
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
-          $ref: ../../../components/ErrorResponse.yaml
+          $ref: "../../../components/ErrorResponse.yaml"
+  '404':
+    description: Не знайдено (контакт не існує)
+    content:
+      application/json:
+        schema:
+          $ref: "../../../components/ErrorResponse.yaml"
