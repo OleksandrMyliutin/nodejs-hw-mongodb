@@ -31,16 +31,16 @@ responses:
     content:
       application/json:
         schema:
-          $ref: "../../components/OneContactResponse.yaml"
+          $ref: ../../components/OneContactResponse.yaml
   '400':
     description: Некоректний запит
     content:
       application/json:
         schema:
-          $ref: "../../components/ErrorResponse.yaml"
+          $ref: ../../components/ErrorResponse.yaml
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
-          $ref: "../../components/ErrorResponse.yaml"
+          $ref: ../../components/ErrorResponse.yaml

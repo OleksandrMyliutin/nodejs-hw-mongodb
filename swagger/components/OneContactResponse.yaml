@@ -9,7 +9,7 @@ properties:
     description: Повідомлення про результат операції
     example: "Contact created successfully"
   data:
-    $ref: './Contact.yaml'
+    $ref: ./Contact.yaml
 required:
   - status
   - message

@@ -20,16 +20,16 @@ responses:
     content:
       application/json:
         schema:
-          $ref: "../../../components/ErrorResponse.yaml"
+          $ref: ../../../components/ErrorResponse.yaml
   '401':
     description: Неавторизовано
     content:
       application/json:
         schema:
-          $ref: "../../../components/ErrorResponse.yaml"
+          $ref: ../../../components/ErrorResponse.yaml
   '404':
     description: Не знайдено (контакт не існує)
     content:
       application/json:
         schema:
-          $ref: "../../../components/ErrorResponse.yaml"
+          $ref: ../../../components/ErrorResponse.yaml
